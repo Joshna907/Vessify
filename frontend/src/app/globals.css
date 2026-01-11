@@ -1,0 +1,264 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 6%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 6%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 142 71% 45%;
+  /* Vibrant Green */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 4% 16%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 4% 16%;
+  --muted-foreground: 240 5% 65%;
+  --accent: 240 4% 16%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 4% 16%;
+  --input: 240 4% 16%;
+  --ring: 240 5% 65%;
+  --radius: 0.75rem;
+
+  /* Font Family Variables */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: #050505;
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+
+  /* Premium Glass Card */
+  .glass-card {
+    background: linear-gradient(180deg, rgba(25, 25, 25, 0.4) 0%, rgba(10, 10, 10, 0.2) 100%);
+    backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.2),
+      0 8px 24px -4px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Inner light border effect */
+  .glass-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), transparent 40%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    z-index: 5;
+  }
+
+  /* High-end Input Field */
+  .glass-input {
+    background: rgba(10, 10, 10, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: white;
+    transition: all 0.2s ease;
+  }
+
+  .glass-input:focus {
+    background: rgba(15, 15, 15, 0.8);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+    outline: none;
+  }
+
+  /* Floating "Liquid" Navbar Island */
+  .navbar-glass {
+    background: rgba(15, 15, 15, 0.3);
+    /* More transparent for shine */
+    backdrop-filter: blur(24px) saturate(200%);
+    /* Stronger blur */
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.2),
+      0 12px 48px -8px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25),
+      /* Stronger rim light */
+      inset 0 20px 30px -10px rgba(255, 255, 255, 0.05);
+    /* Top gloss */
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Liquid / Glossy Highlight on top - "The Shine" */
+  .navbar-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  /* Dramatic Spotlight - "God Ray" effect */
+  .spotlight-effect {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      /* Main top "God Ray" beam */
+      conic-gradient(from 225deg at 50% -20%, transparent 0deg, rgba(255, 255, 255, 0.03) 45deg, transparent 90deg),
+      /* Ambient top glow */
+      radial-gradient(ellipse at 50% 0%, rgba(200, 200, 255, 0.08) 0%, transparent 60%);
+  }
+
+
+
+  /* Premium Film Grain / Noise Overlay */
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Global Polish: Selection & Scrollbars */
+::selection {
+  background: rgba(120, 120, 255, 0.3);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 5px;
+  border: 2px solid #050505;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Active/Click State */
+.btn-liquid:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* 3D Carousel Animation */
+@keyframes carousel-spin {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(-360deg);
+  }
+}
+
+.animate-carousel-spin {
+  animation: carousel-spin 40s linear infinite;
+}
+
+/* More specific letter placement using pseudo-elements for better control */
+/* Parabolic Arc / Semicircle Symbol Pattern - Denser & Darker */
+.letter-side-left,
+.letter-side-right {
+  position: fixed;
+  bottom: 0;
+  width: 40%;
+  height: 80vh;
+  z-index: 0;
+  pointer-events: none;
+  background-size: 120px 120px, 60% 60%;
+  /* Slightly larger tile for more complex curves */
+  background-repeat: repeat, no-repeat;
+  opacity: 0.5;
+  /* Balanced opacity */
+}
+
+.letter-side-left {
+  left: 0;
+  /* Denser pattern with varied opacity for depth */
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.s%7Bfill:none;stroke:rgba(255,255,255,0.1);stroke-width:1.5;%7D .s2%7Bfill:none;stroke:rgba(255,255,255,0.05);stroke-width:1;%7D%3C/style%3E%3Cpath d='M20 20 Q60 100 100 20' class='s'/%3E%3Cpath d='M10 60 Q60 110 110 60' class='s'/%3E%3Cpath d='M40 0 Q60 40 80 0' class='s'/%3E%3Cpath d='M0 40 Q40 90 80 40' class='s2'/%3E%3Cpath d='M50 80 Q80 120 110 80' class='s2'/%3E%3Cpath d='M90 10 Q110 40 120 10' class='s2'/%3E%3C/svg%3E"),
+    radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%), linear-gradient(to top, black 0%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, black 0%, transparent 100%), linear-gradient(to top, black 0%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.letter-side-right {
+  right: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.s%7Bfill:none;stroke:rgba(255,255,255,0.1);stroke-width:1.5;%7D .s2%7Bfill:none;stroke:rgba(255,255,255,0.05);stroke-width:1;%7D%3C/style%3E%3Cpath d='M20 20 Q60 100 100 20' class='s'/%3E%3Cpath d='M10 60 Q60 110 110 60' class='s'/%3E%3Cpath d='M40 0 Q60 40 80 0' class='s'/%3E%3Cpath d='M0 40 Q40 90 80 40' class='s2'/%3E%3Cpath d='M50 80 Q80 120 110 80' class='s2'/%3E%3Cpath d='M90 10 Q110 40 120 10' class='s2'/%3E%3C/svg%3E"),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%), linear-gradient(to top, black 0%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to left, black 0%, transparent 100%), linear-gradient(to top, black 0%, transparent 100%);
+  mask-composite: intersect;
+}
