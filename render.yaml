@@ -1,0 +1,45 @@
+services:
+  # 1. Backend Service
+  - type: web
+    name: vessify-backend
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: vessify-db
+          property: connectionString
+      - key: BETTER_AUTH_SECRET
+        generateValue: true
+      - key: BETTER_AUTH_URL
+        value: https://vessify-backend.onrender.com # NOTE: Update this after first deploy if random
+
+  # 2. Frontend Service
+  - type: web
+    name: vessify-frontend
+    env: node
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: vessify-backend
+          property: url
+      - key: AUTH_SECRET
+        fromService:
+          type: web
+          name: vessify-backend
+          envVarKey: BETTER_AUTH_SECRET
+      - key: AUTH_URL
+        value: https://vessify-frontend.onrender.com # NOTE: Update after deploy
+
+databases:
+  - name: vessify-db
+    plan: free
+    region: singapore # or ohio
