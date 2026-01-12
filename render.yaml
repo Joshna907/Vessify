@@ -27,10 +27,7 @@ services:
     startCommand: npm start
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        fromService:
-          type: web
-          name: vessify-backend
-          property: url
+        value: https://vessify-backend.onrender.com # Placeholder: Render gives unique URLs, you might need to update this.
       - key: AUTH_SECRET
         fromService:
           type: web
