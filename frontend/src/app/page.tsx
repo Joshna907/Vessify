@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import TransactionExtractor from "@/components/TransactionExtractor"
 import TransactionList from "@/components/TransactionList"
 import { SiteFooter } from "@/components/SiteFooter"
+import { BentoGrid } from "@/components/BentoGrid"
+import { CurvedCarousel } from "@/components/CurvedCarousel"
 import { LogOut, Sparkles } from "lucide-react"
 
 export default async function Dashboard() {
@@ -39,7 +41,7 @@ export default async function Dashboard() {
             <div className="flex items-center gap-3 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
               <div className="h-6 w-6 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/30">
                 <span className="text-[10px] font-bold text-green-400">
-                  {session.user?.name?.[0]?.toUpperCase() || session.user?.email?.[0]?.toUpperCase() || "U"}
+                  {session?.user?.name?.[0]?.toUpperCase() || session?.user?.email?.[0]?.toUpperCase() || "U"}
                 </span>
               </div>
               <span className="text-xs font-medium text-foreground/80 pr-1">
@@ -95,9 +97,9 @@ export default async function Dashboard() {
             </div>
           </div>
 
-          {/* Cards Grid */}
-          <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
-            <div className="lg:col-span-1" id="extraction">
+          {/* Cards Grid (Functionality) */}
+          <div className="grid gap-6 lg:grid-cols-3 lg:gap-8" id="extraction">
+            <div className="lg:col-span-1">
               <div className="glass-card rounded-2xl p-6 h-full transition-all duration-300 hover:shadow-2xl hover:shadow-white/5">
                 <div className="space-y-4">
                   <div>
@@ -120,6 +122,16 @@ export default async function Dashboard() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Integrations */}
+          <div className="pt-0">
+            <CurvedCarousel />
+          </div>
+
+          {/* Features */}
+          <div id="features">
+            <BentoGrid />
           </div>
 
 

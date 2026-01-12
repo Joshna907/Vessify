@@ -1,5 +1,5 @@
-
 import { Hono } from 'hono';
+import { describe, expect, test, jest, beforeEach } from '@jest/globals';
 import transactionsApp from '../src/routes/transactions';
 import { prisma } from '../src/lib/prisma';
 import { auth } from '../src/lib/auth';
@@ -35,7 +35,7 @@ describe('Transaction Routes Isolation', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        (auth.api.getSession as jest.Mock).mockResolvedValue({
+        (auth.api.getSession as any).mockResolvedValue({
             user: mockUser,
             session: mockSession
         });
@@ -43,7 +43,7 @@ describe('Transaction Routes Isolation', () => {
 
     test('POST /extract prevents access if user not in organization', async () => {
         // Mock that user is NOT a member of org-2
-        (prisma.member.findFirst as jest.Mock).mockResolvedValue(null);
+        (prisma.member.findFirst as any).mockResolvedValue(null);
 
         const res = await app.request('/extract', {
             method: 'POST',
@@ -65,9 +65,9 @@ describe('Transaction Routes Isolation', () => {
 
     test('POST /extract allows access if user IS a member', async () => {
         // Mock membership exists
-        (prisma.member.findFirst as jest.Mock).mockResolvedValue({ id: 'mem-1', role: 'member' });
+        (prisma.member.findFirst as any).mockResolvedValue({ id: 'mem-1', role: 'member' });
         // Mock creation success
-        (prisma.transaction.create as jest.Mock).mockResolvedValue({
+        (prisma.transaction.create as any).mockResolvedValue({
             id: 'txn-1',
             description: 'Test',
             amount: 100,
@@ -91,7 +91,7 @@ describe('Transaction Routes Isolation', () => {
     test('GET / enforces strict isolation by organizationId', async () => {
         // User tries to list transactions for org-3
         // Mock that user is NOT a member of org-3
-        (prisma.member.findFirst as jest.Mock).mockResolvedValue(null);
+        (prisma.member.findFirst as any).mockResolvedValue(null);
 
         const res = await app.request('/?organizationId=org-3', {
             method: 'GET'
@@ -102,8 +102,8 @@ describe('Transaction Routes Isolation', () => {
 
     test('GET / defaults to user organization if param missing', async () => {
         // Mock member lookup succeeds
-        (prisma.member.findFirst as jest.Mock).mockResolvedValue({ organizationId: 'org-1' });
-        (prisma.transaction.findMany as jest.Mock).mockResolvedValue([]);
+        (prisma.member.findFirst as any).mockResolvedValue({ organizationId: 'org-1' });
+        (prisma.transaction.findMany as any).mockResolvedValue([]);
 
         const res = await app.request('/', { method: 'GET' });
         expect(res.status).toBe(200);
